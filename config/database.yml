@@ -84,5 +84,3 @@ test:
 production:
   <<: *default
   database: usa_resilience_opportunity_map_api_production
-  username: usa_resilience_opportunity_map_api
-  password: <%= ENV['USA_RESILIENCE_OPPORTUNITY_MAP_API_DATABASE_PASSWORD'] %>

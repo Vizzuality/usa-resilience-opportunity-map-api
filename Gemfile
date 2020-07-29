@@ -47,6 +47,16 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 
+  gem 'capistrano', '~> 3.14', require: false
+  gem 'capistrano-rails', '~> 1.3', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-env-config', require: false
+  gem 'capistrano-passenger', require: false
+  gem 'capistrano-resque', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-nvm', require: false
+  gem 'capistrano-yarn', require: false
+  gem 'capistrano-logrotate'
   gem 'annotate'
   gem 'rubocop'
 end
