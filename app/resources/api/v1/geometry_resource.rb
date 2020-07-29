@@ -12,11 +12,21 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
-class Geometry < ApplicationRecord
-  has_many :children, class_name: 'Geometry', foreign_key: :parent_id
-  enum location_type: {county: 1, state: 2}
+module Api
+  module V1
+    # Resource for Area
+    class GeometryResource < ApplicationResource
+      caching
+      immutable
 
-  validates_presence_of :name, :gid, :location_type
+      has_many :children
+      attributes :geom, :name, :description, :gid, :location_type
 
-  scope :by_name, ->(string) { where('name ILIKE ?', "%#{string}%")}
+      filters :gid, :location_type
+
+      filter :name, apply: lambda { |records, value, _options|
+        records.where('name ILIKE ?', "%#{value.first}%")
+      }
+    end
+  end
 end
