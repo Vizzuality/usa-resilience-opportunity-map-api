@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_29_094726) do
+ActiveRecord::Schema.define(version: 2020_07_29_095444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 2020_07_29_094726) do
     t.index ["parent_id"], name: "index_geometries_on_parent_id"
   end
 
+  create_table "indicator_data", force: :cascade do |t|
+    t.integer "hazard_value"
+    t.bigint "geometry_id", null: false
+    t.bigint "indicator_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["geometry_id"], name: "index_indicator_data_on_geometry_id"
+    t.index ["indicator_id"], name: "index_indicator_data_on_indicator_id"
+  end
+
   create_table "indicators", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -39,4 +49,6 @@ ActiveRecord::Schema.define(version: 2020_07_29_094726) do
     t.index ["name"], name: "index_indicators_on_name"
   end
 
+  add_foreign_key "indicator_data", "geometries"
+  add_foreign_key "indicator_data", "indicators"
 end
