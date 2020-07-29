@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_29_092128) do
+ActiveRecord::Schema.define(version: 2020_07_29_094726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,14 @@ ActiveRecord::Schema.define(version: 2020_07_29_092128) do
     t.index ["location_type"], name: "index_geometries_on_location_type"
     t.index ["name"], name: "index_geometries_on_name"
     t.index ["parent_id"], name: "index_geometries_on_parent_id"
+  end
+
+  create_table "indicators", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_indicators_on_name"
   end
 
 end
