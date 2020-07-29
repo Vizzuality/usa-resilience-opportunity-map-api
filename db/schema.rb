@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_29_112642) do
+ActiveRecord::Schema.define(version: 2020_07_29_114047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,21 @@ ActiveRecord::Schema.define(version: 2020_07_29_112642) do
     t.index ["name"], name: "index_indicators_on_name"
   end
 
+  create_table "layers", force: :cascade do |t|
+    t.string "name"
+    t.string "layer_type"
+    t.jsonb "source"
+    t.jsonb "render"
+    t.json "legend_config"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "category_id", null: false
+    t.index ["category_id"], name: "index_layers_on_category_id"
+    t.index ["layer_type"], name: "index_layers_on_layer_type"
+    t.index ["name"], name: "index_layers_on_name", unique: true
+  end
+
   add_foreign_key "indicator_data", "geometries"
   add_foreign_key "indicator_data", "indicators"
+  add_foreign_key "layers", "categories"
 end
