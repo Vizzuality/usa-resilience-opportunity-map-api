@@ -1,0 +1,32 @@
+{
+  "group":{
+    "0":"climate risk",
+    "1":"climate risk",
+    "2":"climate risk",
+    "3":"climate risk",
+    "4":"climate risk",
+    "5":"climate risk",
+    "6":"climate risk",
+    "7":"climate risk",
+    "8":"climate risk",
+    "9":"vulnerability",
+    "10":"human impact",
+    "11":"human impact",
+    "12":"human impact"
+  },
+  "indicator":{
+    "0":"riverine flood risk",
+    "1":"coastal flood risk",
+    "2":"extreme heat days",
+    "3":"extreme precipitation days",
+    "4":"drought risk",
+    "5":"landslide susceptibility",
+    "6":"earthquake frequency and distribution",
+    "7":"volcano frequency and distribution",
+    "8":"wildfires",
+    "9":"population",
+    "10":"terrestrial human footprint",
+    "11":"biodiversity intactness",
+    "12":"water stress"
+  }
+}
