@@ -15,4 +15,5 @@
 class Layer < ApplicationRecord
   belongs_to :category
   has_one :metadatum
+  has_many :widgets
 end

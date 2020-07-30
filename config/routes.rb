@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       jsonapi_resources :indicators do; end
       jsonapi_resources :layers do; end
       jsonapi_resources :categories do; end
+      jsonapi_resources :widgets do; end
 
       resources :geometries, only: [:index] do
         get 'tiles/:z/:x/:y', to: 'geometries#tiles', on: :collection

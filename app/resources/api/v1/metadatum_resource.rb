@@ -12,8 +12,17 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
+module Api
+  module V1
+    # Resource for Metadatum
+    class MetadatumResource < ApplicationResource
+      caching
+      immutable
 
-# TODO: Fix the typo in additional
-class Metadatum < ApplicationRecord
-  belongs_to :layer
+      attributes :title, :description, :source, :aditional,
+                 :links
+
+      has_one :layer
+    end
+  end
 end
