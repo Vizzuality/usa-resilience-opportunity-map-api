@@ -11,6 +11,10 @@
 #  parent_id     :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  state_fp      :integer
+#  county_fp     :integer
+#  geojson       :jsonb
+#  properties    :jsonb
 #
 
 one:
