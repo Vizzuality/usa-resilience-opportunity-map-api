@@ -23,4 +23,23 @@ class Geometry < ApplicationRecord
   validates_presence_of :name, :gid, :location_type
 
   scope :by_name, ->(string) { where('name ILIKE ?', "%#{string}%")}
+
+  def self.vector_tiles(param_z, param_x, param_y)
+    begin
+      x, y, z = Integer(param_x), Integer(param_y), Integer(param_z)
+    rescue ArgumentError, TypeError
+      return nil
+    end
+
+    query =
+        <<~SQL
+            SELECT ST_ASMVT(tile.*, 'layer0', 4096, 'mvtgeometry', 'id') as tile
+             FROM (SELECT id, properties, ST_AsMVTGeom(the_geom_webmercator, ST_TileEnvelope(#{z},#{x},#{y}), 4096, 256, true) AS mvtgeometry
+                                      FROM (select *, st_transform(geom, 3857) as the_geom_webmercator from geometries) as data 
+                                    WHERE ST_AsMVTGeom(the_geom_webmercator, ST_TileEnvelope(#{z},#{x},#{y}),4096,0,true) IS NOT NULL) AS tile;
+    SQL
+
+    tile = ActiveRecord::Base.connection.execute query
+    ActiveRecord::Base.connection.unescape_bytea tile.getvalue(0, 0)
+  end
 end
