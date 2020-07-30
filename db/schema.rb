@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_29_121654) do
+ActiveRecord::Schema.define(version: 2020_07_30_074632) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,10 +58,16 @@ ActiveRecord::Schema.define(version: 2020_07_29_121654) do
     t.integer "parent_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "state_fp"
+    t.integer "county_fp"
+    t.jsonb "geojson"
+    t.jsonb "properties"
+    t.index ["county_fp"], name: "index_geometries_on_county_fp"
     t.index ["gid"], name: "index_geometries_on_gid"
     t.index ["location_type"], name: "index_geometries_on_location_type"
     t.index ["name"], name: "index_geometries_on_name"
     t.index ["parent_id"], name: "index_geometries_on_parent_id"
+    t.index ["state_fp"], name: "index_geometries_on_state_fp"
   end
 
   create_table "indicator_data", force: :cascade do |t|
