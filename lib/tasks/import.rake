@@ -8,4 +8,9 @@ namespace :import do
   task indicators: :environment do
     ImportIndicators.new.call
   end
+
+  desc 'Import Indicator Data'
+  task indicator_data: :environment do
+    ImportIndicatorData.new.call
+  end
 end

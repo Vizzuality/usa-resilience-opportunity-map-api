@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_30_074632) do
+ActiveRecord::Schema.define(version: 2020_07_30_130940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,9 @@ ActiveRecord::Schema.define(version: 2020_07_30_074632) do
     t.bigint "indicator_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "absolute_value"
+    t.float "normalized_value"
+    t.string "range"
     t.index ["geometry_id"], name: "index_indicator_data_on_geometry_id"
     t.index ["indicator_id"], name: "index_indicator_data_on_indicator_id"
   end
@@ -85,7 +88,9 @@ ActiveRecord::Schema.define(version: 2020_07_30_074632) do
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "slug"
     t.index ["name"], name: "index_indicators_on_name"
+    t.index ["slug"], name: "index_indicators_on_slug"
   end
 
   create_table "layers", force: :cascade do |t|

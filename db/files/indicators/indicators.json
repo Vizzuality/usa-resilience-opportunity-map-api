@@ -1,32 +1,67 @@
-{
-  "group":{
-    "0":"climate risk",
-    "1":"climate risk",
-    "2":"climate risk",
-    "3":"climate risk",
-    "4":"climate risk",
-    "5":"climate risk",
-    "6":"climate risk",
-    "7":"climate risk",
-    "8":"climate risk",
-    "9":"vulnerability",
-    "10":"human impact",
-    "11":"human impact",
-    "12":"human impact"
+[
+  {
+    "group": "climate risk",
+    "name": "riverine flood risk",
+    "slug": "rfr"
   },
-  "indicator":{
-    "0":"riverine flood risk",
-    "1":"coastal flood risk",
-    "2":"extreme heat days",
-    "3":"extreme precipitation days",
-    "4":"drought risk",
-    "5":"landslide susceptibility",
-    "6":"earthquake frequency and distribution",
-    "7":"volcano frequency and distribution",
-    "8":"wildfires",
-    "9":"population",
-    "10":"terrestrial human footprint",
-    "11":"biodiversity intactness",
-    "12":"water stress"
+  {
+    "group": "climate risk",
+    "name": "coastal flood risk",
+    "slug": "cfr"
+  },
+  {
+    "group": "climate risk",
+    "name": "extreme heat days",
+    "slug": "ehd"
+  },
+  {
+    "group": "climate risk",
+    "name": "extreme precipitation days",
+    "slug": "epd"
+  },
+  {
+    "group": "climate risk",
+    "name": "drought risk",
+    "slug": "drr"
+  },
+  {
+    "group": "climate risk",
+    "name": "landslide susceptibility",
+    "slug": "lss"
+  },
+  {
+    "group": "climate risk",
+    "name": "earthquake frequency and distribution",
+    "slug": "efd"
+  },
+  {
+    "group": "climate risk",
+    "name": "volcano frequency and distribution",
+    "slug": "vfd"
+  },
+  {
+    "group": "climate risk",
+    "name": "wildfires",
+    "slug": "wlf"
+  },
+  {
+    "group": "vulnerability",
+    "name": "population",
+    "slug": "pop"
+  },
+  {
+    "group": "human impact",
+    "name": "terrestrial human footprint",
+    "slug": "thf"
+  },
+  {
+    "group": "human impact",
+    "name": "biodiversity intactness",
+    "slug": "bdi"
+  },
+  {
+    "group": "human impact",
+    "name": "water stress",
+    "slug": "bws"
   }
-}
+]

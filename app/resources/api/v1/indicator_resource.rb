@@ -15,9 +15,9 @@ module Api
       caching
       immutable
 
-      attributes :name, :description
+      attributes :name, :description, :slug
 
-      filters :name
+      filters :name, :slug
     end
   end
 end
