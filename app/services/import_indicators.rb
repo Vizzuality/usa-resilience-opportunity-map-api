@@ -7,11 +7,10 @@ class ImportIndicators
       file = Rails.root.join('db/files/indicators/indicators.json').open
       data = JSON.load file
 
-      data['group'].each do |k, v|
-        category = Category.find_or_create_by! name: v
-        layer = data['indicator']["#{k}"]
-        Layer.find_or_create_by! name: layer, category: category
-        Indicator.find_or_create_by! name: layer
+      data.each do |ind|
+        category = Category.find_or_create_by! name: ind['group']
+        Layer.find_or_create_by! name: ind['name'], category: category
+        Indicator.find_or_create_by! name: ind['name'], slug: ['slug']
       end
 
       puts '>>> FINISHED IMPORTING INDICATORS <<<'
