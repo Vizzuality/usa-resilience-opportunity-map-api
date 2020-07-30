@@ -19,10 +19,11 @@ module Api
       caching
       immutable
 
-      has_many :children
-      attributes :geom, :name, :description, :gid, :location_type
+      has_many :children, class_name: 'Geometry', foreign_key: 'parent_id'
+      attributes :geom, :name, :description,
+                 :gid, :location_type, :parent_id
 
-      filters :gid, :location_type
+      filters :gid, :location_type, :parent_id
 
       filter :name, apply: lambda { |records, value, _options|
         records.where('name ILIKE ?', "%#{value.first}%")
