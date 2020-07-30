@@ -14,7 +14,7 @@
 #
 module Api
   module V1
-    # Resource for Area
+    # Resource for Geometry
     class GeometryResource < ApplicationResource
       caching
       immutable
