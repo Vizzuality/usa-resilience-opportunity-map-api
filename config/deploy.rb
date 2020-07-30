@@ -19,7 +19,7 @@ set :rvm_ruby_version, '2.7.1'
 set :rvm_roles, [:app, :web, :db]
 
 append :linked_files, '.env', 'config/master.key'
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", 'db/files', 'config/credentials'
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", 'config/credentials'
 
 set :user, 'ubuntu'
 
