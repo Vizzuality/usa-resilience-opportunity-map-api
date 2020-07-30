@@ -4,43 +4,24 @@ class ImportIndicatorData
     ActiveRecord::Base.transaction do
       puts '>>> IMPORTING INDICATOR DATA <<<'
 
-      mapping = indicator_mapping
+      # TODO: This code is terrible. This should be fixed.
       filename = Rails.root.join('db/files/indicator_data/indicator_data.csv')
       CSV.foreach(filename, col_sep: ',', row_sep: :auto, headers: true, encoding: 'UTF-8') do |row|
         data_row = row.to_h
         geometry = Geometry.find_by gid: data_row['geoid']
 
-        data_row.to_a[4..-1].each do |data|
-          indicator_datum = IndicatorDatum.find_or_create_by geometry_id: geometry.id, indicator_id: mapping[data.first]
-          indicator_datum.hazard_value = data.last
+        data_row.to_a[4..-1].each_slice(4) do |data|
+          indicator = Indicator.find_by slug: data.first.first.split('_').first
+          indicator_datum = IndicatorDatum.find_or_create_by geometry_id: geometry.id, indicator_id: indicator.id
+          indicator_datum.absolute_value = data.first.last
+          indicator_datum.normalized_value = data.second.last
+          indicator_datum.hazard_value = data.third.last
+          indicator_datum.range = data.fourth.last
           indicator_datum.save
         end
       end
 
       puts '>>> FINISHED IMPORTING INDICATOR DATA <<<'
     end
-  end
-
-  # TODO:
-  # This shouldn't be like this.
-  # This way the indicators are hardcoded.
-  # The names of the columns should be the same as the names of the indicators
-  def indicator_mapping
-    mapping = {}
-
-    mapping['pop'] = Indicator.find_by(name: 'population').id
-    mapping['pop_score'] = Indicator.find_by(name: '').id
-    mapping['pop_cat'] = Indicator.find_by(name: '').id
-    mapping['pop_range'] = Indicator.find_by(name: '').id
-    mapping['rfr'] = Indicator.find_by(name: '').id
-    mapping['rfr_score'] = Indicator.find_by(name: '').id
-    mapping['rfr_cat'] = Indicator.find_by(name: '').id
-    mapping['rfr_range'] = Indicator.find_by(name: '').id
-    mapping['bws'] = Indicator.find_by(name: '').id
-    mapping['bws_score'] = Indicator.find_by(name: '').id
-    mapping['bws_cat'] = Indicator.find_by(name: '').id
-    mapping['bws_range'] = Indicator.find_by(name: '').id
-
-    mapping
   end
 end
