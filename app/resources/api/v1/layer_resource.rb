@@ -22,7 +22,7 @@ module Api
       attributes :name, :layer_type, :source, :render,
                  :legend_config
 
-      has_one :category
+      has_one :category, :metadatum
 
       filters :name, :layer_type
     end
