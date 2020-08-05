@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_30_130940) do
+ActiveRecord::Schema.define(version: 2020_08_05_081627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2020_07_30_130940) do
     t.integer "county_fp"
     t.jsonb "geojson"
     t.jsonb "properties"
+    t.geometry "bbox", limit: {:srid=>0, :type=>"geometry"}
     t.index ["county_fp"], name: "index_geometries_on_county_fp"
     t.index ["gid"], name: "index_geometries_on_gid"
     t.index ["location_type"], name: "index_geometries_on_location_type"
