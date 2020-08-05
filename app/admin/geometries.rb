@@ -14,5 +14,6 @@ ActiveAdmin.register Geometry do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  
+
+  permit_params :geom, :name, :description, :gid, :location_type, :parent_id, :state_fp, :county_fp, :geojson, :properties, :bbox
 end

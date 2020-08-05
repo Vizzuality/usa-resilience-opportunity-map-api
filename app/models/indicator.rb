@@ -10,4 +10,6 @@
 #  slug        :string
 #
 class Indicator < ApplicationRecord
+  belongs_to :category
+  has_many :indicator_data
 end

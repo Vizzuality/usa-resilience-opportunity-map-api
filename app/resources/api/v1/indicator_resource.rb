@@ -17,6 +17,9 @@ module Api
 
       attributes :name, :description, :slug
 
+      has_one :category
+      has_many :indicator_datum
+
       filters :name, :slug
     end
   end

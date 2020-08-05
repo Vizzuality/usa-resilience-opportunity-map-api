@@ -14,7 +14,7 @@ module Api
       caching
       immutable
 
-      has_many :layers
+      has_many :indicators
       attributes :name
 
       filters :name
