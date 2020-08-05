@@ -9,7 +9,7 @@ class ImportIndicators
 
       data.each do |ind|
         category = Category.find_or_create_by! name: ind['group']
-        Layer.find_or_create_by! name: ind['name'], category: category
+        # Layer.find_or_create_by! name: ind['name'], category: category
         Indicator.find_or_create_by! name: ind['name'], slug: ind['slug']
       end
 
