@@ -14,5 +14,6 @@ ActiveAdmin.register IndicatorDatum do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  
+
+  permit_params :category_id, :hazard_value, :geometry_id, :indicator_id, :absolute_value, :normalized_value, :range
 end

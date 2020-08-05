@@ -15,5 +15,5 @@
 
 # TODO: Fix the typo in additional
 class Metadatum < ApplicationRecord
-  belongs_to :layer
+  belongs_to :indicator
 end

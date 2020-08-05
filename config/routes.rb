@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       jsonapi_resources :geometries do; end
       jsonapi_resources :indicators do; end
+      jsonapi_resources :indicator_data do; end
       jsonapi_resources :layers do; end
       jsonapi_resources :categories do; end
       jsonapi_resources :widgets do; end
