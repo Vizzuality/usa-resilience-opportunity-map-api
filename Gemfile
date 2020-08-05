@@ -56,6 +56,7 @@ group :development do
   gem 'capistrano-logrotate'
   gem 'annotate'
   gem 'rubocop'
+  gem 'dotenv-rails'
 end
 
 group :test do
