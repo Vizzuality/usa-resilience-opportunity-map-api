@@ -33,11 +33,40 @@ class Geometry < ApplicationRecord
     end
 
     query =
-        <<~SQL
-            SELECT ST_ASMVT(tile.*, 'layer0', 4096, 'mvtgeometry', 'id') as tile
-             FROM (SELECT id, properties, ST_AsMVTGeom(the_geom_webmercator, ST_TileEnvelope(#{z},#{x},#{y}), 4096, 256, true) AS mvtgeometry
-                                      FROM (select *, st_transform(geom, 3857) as the_geom_webmercator from geometries) as data
-                                    WHERE ST_AsMVTGeom(the_geom_webmercator, ST_TileEnvelope(#{z},#{x},#{y}),4096,0,true) IS NOT NULL) AS tile;
+      <<~SQL
+        with indicator_join as (
+          select
+            geometry_id, hazard_value, id.absolute_value, id.normalized_value, range, i.slug, i.name as indicator_name, c.name as category_name
+          from
+            indicator_data id
+          inner join indicators i on
+            id.indicator_id = i.id
+          inner join categories c on
+            i.category_id = c.id),
+        result as (
+        select jsonb_object_agg(slug || '_hazard', hazard_value) || jsonb_object_agg(slug || '_abs', absolute_value) || jsonb_object_agg(slug || '_norm', normalized_value) || jsonb_object_agg(slug, indicator_name) || jsonb_object_agg(slug || '_cat', category_name) as properties,
+          geometry_id
+        from
+          indicator_join
+        group by
+          geometry_id)
+
+        SELECT ST_ASMVT(tile.*, 'layer0', 4096, 'mvtgeometry', 'id') as tile
+        FROM (SELECT id, properties, ST_AsMVTGeom(the_geom_webmercator, ST_TileEnvelope(#{z},#{x},#{y}), 4096, 256, true) AS mvtgeometry
+        FROM (
+          select
+            geometry_id as id,
+            result.properties || jsonb_build_object('parent_id', parent_id, 'location_type', location_type, 'name', name) as properties,
+            geom,
+            bbox,
+            st_transform(geom, 3857) as the_geom_webmercator
+          from
+            result
+          inner join geometries g2 on
+            g2.id = geometry_id
+        ) as data
+        WHERE ST_AsMVTGeom(the_geom_webmercator, ST_TileEnvelope(#{z},#{x},#{y}),4096,0,true) IS NOT NULL) AS tile;
+
     SQL
 
     tile = ActiveRecord::Base.connection.execute query
