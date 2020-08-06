@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 2020_08_05_113728) do
     t.integer "county_fp"
     t.jsonb "geojson"
     t.jsonb "properties"
-    t.geometry "bbox", limit: {:srid=>0, :type=>"geometry"}
+    t.jsonb "bbox"
     t.index ["county_fp"], name: "index_geometries_on_county_fp"
     t.index ["gid"], name: "index_geometries_on_gid"
     t.index ["location_type"], name: "index_geometries_on_location_type"
