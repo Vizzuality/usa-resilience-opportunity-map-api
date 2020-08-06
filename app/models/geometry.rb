@@ -56,7 +56,7 @@ class Geometry < ApplicationRecord
         FROM (
           select
             geometry_id as id,
-            result.properties || jsonb_build_object('parent_id', parent_id, 'location_type', location_type, 'name', name) as properties,
+            result.properties || jsonb_build_object('parent_id', parent_id, 'location_type', location_type, 'name', name, 'id', geometry_id) as properties,
             geom,
             bbox,
             st_transform(geom, 3857) as the_geom_webmercator
