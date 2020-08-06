@@ -15,6 +15,7 @@ class ImportLocations
         geometry.name = properties['name']
         geometry.location_type = Geometry.location_types['state']
         geometry.state_fp = properties['statefp']
+        geometry.bbox = properties['bbox']
         geometry.geojson = feature
         geometry.properties = properties
         geometry.save
@@ -36,6 +37,7 @@ class ImportLocations
         geometry.location_type = Geometry.location_types['county']
         geometry.state_fp = properties['statefp']
         geometry.county_fp = properties['countyfp']
+        geometry.bbox = properties['bbox']
         geometry.geojson = feature
         geometry.properties = properties
         geometry.save
