@@ -57,6 +57,7 @@ group :development do
   gem 'annotate'
   gem 'rubocop'
   gem 'dotenv-rails'
+  gem 'awesome_print'
 end
 
 group :test do
