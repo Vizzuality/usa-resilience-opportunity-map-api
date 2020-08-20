@@ -25,7 +25,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'activeadmin'
 gem 'devise'
 
-gem 'jsonapi-resources'
+gem 'jsonapi-resources', '0.9.0'
 gem 'rack-cors'
 
 # Reduces boot times through caching; required in config/boot.rb
