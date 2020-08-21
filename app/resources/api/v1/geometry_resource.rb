@@ -23,6 +23,10 @@ module Api
       attributes :name, :description, :bbox,
                  :gid, :location_type, :parent_id
 
+      def parent_id
+        @model.parent_id
+      end
+
       filters :gid, :location_type, :parent_id
 
       filter :name, apply: lambda { |records, value, _options|
