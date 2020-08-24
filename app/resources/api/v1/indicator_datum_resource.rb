@@ -15,7 +15,7 @@
 module Api
   module V1
     # Resource for IndicatorDatum
-    class IndicatorDatumResource < JSONAPI::Resource
+    class IndicatorDatumResource < ApplicationResource
       caching
       immutable
 
