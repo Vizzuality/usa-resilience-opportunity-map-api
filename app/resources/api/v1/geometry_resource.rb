@@ -20,6 +20,7 @@ module Api
       immutable
 
       has_many :children, class_name: 'Geometry', foreign_key: 'parent_id'
+      has_many :indicator_data
       attributes :name, :description, :bbox,
                  :gid, :location_type, :parent_id
 
