@@ -13,5 +13,5 @@ class Indicator < ApplicationRecord
   belongs_to :category
   has_many :indicator_data
 
-  validates_presence_of :relevant
+  validates_inclusion_of :relevant, in: [:true, :false]
 end
