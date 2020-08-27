@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_20_145959) do
+ActiveRecord::Schema.define(version: 2020_08_27_151417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,7 +92,9 @@ ActiveRecord::Schema.define(version: 2020_08_20_145959) do
     t.string "slug"
     t.bigint "category_id"
     t.boolean "relevant", default: false
+    t.string "labels", default: [], array: true
     t.index ["category_id"], name: "index_indicators_on_category_id"
+    t.index ["labels"], name: "index_indicators_on_labels"
     t.index ["name"], name: "index_indicators_on_name"
     t.index ["relevant"], name: "index_indicators_on_relevant"
     t.index ["slug"], name: "index_indicators_on_slug"

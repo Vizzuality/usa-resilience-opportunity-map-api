@@ -8,6 +8,9 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  slug        :string
+#  category_id :bigint
+#  relevant    :boolean          default(FALSE)
+#  labels      :string           default([]), is an Array
 #
 require 'test_helper'
 
