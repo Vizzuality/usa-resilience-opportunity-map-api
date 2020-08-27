@@ -15,6 +15,7 @@
 #  county_fp     :integer
 #  geojson       :jsonb
 #  properties    :jsonb
+#  bbox          :jsonb
 #
 class Geometry < ApplicationRecord
   has_many :indicator_data

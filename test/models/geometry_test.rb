@@ -15,6 +15,7 @@
 #  county_fp     :integer
 #  geojson       :jsonb
 #  properties    :jsonb
+#  bbox          :jsonb
 #
 require 'test_helper'
 
