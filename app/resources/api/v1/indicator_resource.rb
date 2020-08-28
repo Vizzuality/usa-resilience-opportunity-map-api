@@ -15,7 +15,8 @@ module Api
       caching
       immutable
 
-      attributes :name, :description, :slug, :relevant, :labels
+      attributes :name, :description, :slug, :relevant, :labels,
+                 :legend_states, :legend_countries, :legend_title
 
       has_one :category
       has_many :indicator_datum

@@ -15,5 +15,6 @@ ActiveAdmin.register Indicator do
   #   permitted
   # end
 
-  permit_params :category_id, :name, :description, :slug, :relevant, :labels
+  permit_params :category_id, :name, :description, :slug,
+                :relevant, :labels, :legend_states, :legend_countries, :legend_title
 end
