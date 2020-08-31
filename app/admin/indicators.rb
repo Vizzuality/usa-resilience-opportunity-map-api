@@ -17,4 +17,21 @@ ActiveAdmin.register Indicator do
 
   permit_params :category_id, :name, :description, :slug,
                 :relevant, :labels, :legend_states, :legend_countries, :legend_title
+
+  form do |f|
+    f.semantic_errors *f.object.errors.keys
+
+    f.inputs do
+      f.input :category
+      f.input :name
+      f.input :description
+      f.input :slug
+      f.input :labels
+      f.input :legend_states
+      f.input :legend_countries
+      f.input :legend_title
+
+    end
+    actions
+  end
 end
