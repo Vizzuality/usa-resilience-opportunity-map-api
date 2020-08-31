@@ -22,19 +22,19 @@ class Indicator < ApplicationRecord
   validates_inclusion_of :relevant, in: [true, false]
 
   def labels=(values)
-    return super values.split(' ') if values.is_a? String
+    return super values.split(', ') if values.is_a? String
 
     super values
   end
 
   def legend_states=(values)
-    return super values.split(' ') if values.is_a? String
+    return super values.split(', ') if values.is_a? String
 
     super values
   end
 
   def legend_countries=(values)
-    return super values.split(' ') if values.is_a? String
+    return super values.split(', ') if values.is_a? String
 
     super values
   end
