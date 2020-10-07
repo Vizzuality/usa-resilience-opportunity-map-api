@@ -19,7 +19,7 @@ module Api
       caching
       immutable
 
-      attributes :hazard_value, :absolute_value, :normalized_value
+      attributes :hazard_value, :absolute_value, :normalized_value, :indicator_id
 
       has_one :category
       has_one :geometry
