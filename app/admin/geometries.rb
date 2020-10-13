@@ -15,5 +15,6 @@ ActiveAdmin.register Geometry do
   #   permitted
   # end
 
-  permit_params :geom, :name, :description, :gid, :location_type, :parent_id, :state_fp, :county_fp, :geojson, :properties, :bbox
+  permit_params :geom, :name, :description, :gid, :location_type, :parent_id,
+                :state_fp, :county_fp, :tract_ce, :geojson, :properties, :bbox
 end

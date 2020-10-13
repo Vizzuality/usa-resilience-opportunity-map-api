@@ -16,6 +16,7 @@
 #  geojson       :jsonb
 #  properties    :jsonb
 #  bbox          :jsonb
+#  tract_ce      :integer
 #
 require 'test_helper'
 

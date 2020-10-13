@@ -1,7 +1,8 @@
 namespace :import do
   desc 'Import geometries from .json file'
-  task locations: :environment do
-    ImportLocations.new.call
+  task :locations, [:types] => [:environment] do |t, args|
+    types = args[:types].split(' ')
+    ImportLocations.new(types).call
   end
 
   desc 'Import indicators'

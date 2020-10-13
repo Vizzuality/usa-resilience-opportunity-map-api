@@ -1,54 +1,88 @@
 # Class to import the locations from a json file
 class ImportLocations
+  DEFAULT_TYPES = %w[states counties censuses]
+
+  def initialize(types = DEFAULT_TYPES)
+    @types = types & DEFAULT_TYPES
+  end
+
   def call
     ActiveRecord::Base.transaction do
       puts '>>> IMPORTING LOCATIONS <<<'
+      import_states if @types.include? 'states'
+      import_counties if @types.include? 'counties'
+      import_censuses if @types.include? 'censuses'
+      generate_geometries
+      puts '>>> FINISHED IMPORTING LOCATIONS <<<'
+    end
+  end
 
-      puts '>>> IMPORTING STATES <<<'
+  private
 
-      file = Rails.root.join('db/files/geometries/states.json').open
-      data = JSON.load file
+  def import_states
+    puts '>>> IMPORTING STATES <<<'
 
-      data['features'].each do |feature|
-        properties = feature['properties']
-        geometry = Geometry.find_or_create_by gid: properties['geoid']
-        geometry.name = properties['name']
-        geometry.location_type = Geometry.location_types['state']
-        geometry.state_fp = properties['statefp']
-        geometry.bbox = properties['bbox']
-        geometry.geojson = feature
-        geometry.properties = properties
-        geometry.save
-      end
+    data('states')['features'].each do |feature|
+      properties = feature['properties']
+      geometry = Geometry.find_or_create_by gid: properties['geoid']
+      geometry.name = properties['name']
+      geometry.location_type = Geometry.location_types['state']
+      geometry.state_fp = properties['statefp']
+      geometry.bbox = properties['bbox']
+      geometry.geojson = feature
+      geometry.properties = properties
+      geometry.save
+    end
 
-      puts '>>> FINISHED IMPORTING STATES <<<'
+    puts '>>> FINISHED IMPORTING STATES <<<'
+  end
 
+  def import_counties
+    puts '>>> IMPORTING COUNTIES <<<'
 
-      puts '>>> IMPORTING COUNTIES <<<'
+    data('counties')['features'].each do |feature|
+      properties = feature['properties']
+      geometry = Geometry.find_or_create_by gid: properties['geoid']
+      geometry.parent_id = Geometry.state.find_by(state_fp: properties['statefp'])&.id
+      geometry.name = properties['name']
+      geometry.location_type = Geometry.location_types['county']
+      geometry.state_fp = properties['statefp']
+      geometry.county_fp = properties['countyfp']
+      geometry.bbox = properties['bbox']
+      geometry.geojson = feature
+      geometry.properties = properties
+      geometry.save
+    end
 
-      file = Rails.root.join('db/files/geometries/counties.json').open
-      data = JSON.load file
+    puts '>>> FINISHED IMPORTING COUNTIES <<<'
+  end
 
-      data['features'].each do |feature|
-        properties = feature['properties']
-        geometry = Geometry.find_or_create_by gid: properties['geoid']
-        geometry.parent_id = Geometry.state.find_by(state_fp: properties['statefp'])&.id
-        geometry.name = properties['name']
-        geometry.location_type = Geometry.location_types['county']
-        geometry.state_fp = properties['statefp']
-        geometry.county_fp = properties['countyfp']
-        geometry.bbox = properties['bbox']
-        geometry.geojson = feature
-        geometry.properties = properties
-        geometry.save
-      end
+  def import_censuses
+    puts '>>> IMPORTING CENSUSES <<<'
 
-      puts '>>> FINISHED IMPORTING COUNTIES <<<'
+    data('censuses')['features'].each do |feature|
+      properties = feature['properties']
+      geometry = Geometry.find_or_create_by gid: properties['geoid']
+      geometry.parent_id = Geometry.county.find_by(county_fp: properties['countyfp'])&.id
+      geometry.name = properties['name']
+      geometry.location_type = Geometry.location_types['census']
+      geometry.state_fp = properties['statefp']
+      geometry.county_fp = properties['countyfp']
+      geometry.tract_ce = properties['tractce']
+      geometry.bbox = properties['bbox']
+      geometry.geojson = feature
+      geometry.properties = properties
+      geometry.save
+    end
 
-      puts '>>> GENERATING GEOMETRIES <<<'
+    puts '>>> FINISHED IMPORTING COUNTIES <<<'
+  end
 
-      query =
-          <<~SQL
+  def generate_geometries
+    puts '>>> GENERATING GEOMETRIES <<<'
+
+    query =
+        <<~SQL
         WITH g as (
         SELECT *, x.properties as prop, ST_GeomFromGeoJSON(x.geometry) as the_geom
         FROM geometries CROSS JOIN LATERAL
@@ -58,12 +92,14 @@ class ImportLocations
         set geom = g.the_geom , properties = g.prop
         from g
         where geometries.id = g.id;
-      SQL
-      ActiveRecord::Base.connection.execute query
+    SQL
+    ActiveRecord::Base.connection.execute query
 
-      puts '>>> FINISHED GENERATING GEOMETRIES <<<'
+    puts '>>> FINISHED GENERATING GEOMETRIES <<<'
+  end
 
-      puts '>>> FINISHED IMPORTING LOCATIONS <<<'
-    end
+  def data(filename)
+    file = Rails.root.join("db/files/geometries/#{filename}.json").open
+    JSON.load(file)
   end
 end
