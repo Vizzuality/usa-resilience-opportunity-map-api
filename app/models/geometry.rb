@@ -16,11 +16,12 @@
 #  geojson       :jsonb
 #  properties    :jsonb
 #  bbox          :jsonb
+#  tract_ce      :integer
 #
 class Geometry < ApplicationRecord
   has_many :indicator_data
   has_many :children, class_name: 'Geometry', foreign_key: :parent_id
-  enum location_type: {county: 1, state: 2}
+  enum location_type: {county: 1, state: 2, census: 3}
 
   validates_presence_of :name, :gid, :location_type
 
