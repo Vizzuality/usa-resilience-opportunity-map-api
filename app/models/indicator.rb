@@ -14,10 +14,13 @@
 #  legend_states    :string           default([]), is an Array
 #  legend_countries :string           default([]), is an Array
 #  legend_title     :string
+#  external_id      :integer
+#  parent_id        :bigint
 #
 class Indicator < ApplicationRecord
   belongs_to :category
   has_many :indicator_data
+  has_many :sub_indicators, class_name: 'Indicator', foreign_key: :parent_id
 
   validates_inclusion_of :relevant, in: [true, false]
 
