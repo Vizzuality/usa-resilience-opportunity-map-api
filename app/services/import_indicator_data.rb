@@ -9,7 +9,7 @@ class ImportIndicatorData
       i = 0
       CSV.foreach(filename, col_sep: ',', row_sep: :auto, headers: true, encoding: 'UTF-8') do |row|
         i += 1
-        puts i if 1%100
+        puts i if i%100
         data_row = row.to_h
         geometry = Geometry.find_by gid: data_row['geoid']
 
