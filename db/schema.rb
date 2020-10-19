@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_115141) do
+ActiveRecord::Schema.define(version: 2020_10_15_134837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,9 +97,12 @@ ActiveRecord::Schema.define(version: 2020_10_13_115141) do
     t.string "legend_states", default: [], array: true
     t.string "legend_countries", default: [], array: true
     t.string "legend_title"
+    t.integer "external_id"
+    t.bigint "parent_id"
     t.index ["category_id"], name: "index_indicators_on_category_id"
     t.index ["labels"], name: "index_indicators_on_labels"
     t.index ["name"], name: "index_indicators_on_name"
+    t.index ["parent_id"], name: "index_indicators_on_parent_id"
     t.index ["relevant"], name: "index_indicators_on_relevant"
     t.index ["slug"], name: "index_indicators_on_slug"
   end
@@ -145,6 +148,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_115141) do
 
   add_foreign_key "indicator_data", "geometries"
   add_foreign_key "indicator_data", "indicators"
+  add_foreign_key "indicators", "indicators", column: "parent_id"
   add_foreign_key "layers", "categories"
   add_foreign_key "metadata", "layers"
   add_foreign_key "widgets", "layers"
