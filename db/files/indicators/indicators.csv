@@ -1,0 +1,29 @@
+,Name,Slug,Category,Group
+0,riverine flood risk,rfr,climate risk,0.0
+1,coastal flood risk,cfr,climate risk,1.0
+2,extreme heat days,ehd,climate risk,2.0
+3,extreme precipitation days,epd,climate risk,3.0
+4,drought risk,drr,climate risk,4.0
+5,landslide susceptibility,lss,climate risk,5.0
+6,earthquake frequency and distribution,efd,climate risk,6.0
+7,volcano frequency and distribution,vfd,climate risk,7.0
+8,wildfires,wlf,climate risk,8.0
+9,socioeconomic status,ses,vulnerability,9.0
+10,percentage of persons below poverty,pov,vulnerability,9.1
+11,percentage of civilian (age 16+) unemployed,uep,vulnerability,9.2
+12,per capita income,pci,vulnerability,9.3
+13,percentage of persons with no high school diploma (age 25+),hsd,vulnerability,9.4
+14,household composition & disability,hcd,vulnerability,10.0
+15,percentage of persons aged 65 and older,a6o,vulnerability,10.1
+16,percentage of persons aged 17 and younger,a1y,vulnerability,10.2
+17,percentage of civilian with a disability,pcd,vulnerability,10.3
+18,percentage of single parent households with children under 18,sph,vulnerability,10.4
+19,minority status & language,msl,vulnerability,11.0
+20,"minority (all persons except white, non-Hispanic)",mnt,vulnerability,11.1
+21,speaks english “less than well”,sen,vulnerability,11.2
+22,housing type & transportation,htt,vulnerability,12.0
+23,multi-unit structures,mus,vulnerability,12.1
+24,mobile homes,mhm,vulnerability,12.2
+25,crowding,cwd,vulnerability,12.3
+26,no vehicle,vhc,vulnerability,12.4
+27,group quarters,gqt,vulnerability,12.5
