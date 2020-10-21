@@ -1,28 +1,16 @@
 ActiveAdmin.register Indicator do
-
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  # permit_params :name, :description, :slug
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:name, :description, :slug]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-
-  permit_params :category_id, :name, :description, :slug,
+  permit_params :category_id, :parent_id, :name, :description, :slug,
                 :relevant, :labels, :legend_states, :legend_countries, :legend_title
+
+  filter :name
+  filter :parent_id, as: :select
 
   form do |f|
     f.semantic_errors *f.object.errors.keys
 
     f.inputs do
       f.input :category
+      f.input :parent_id
       f.input :name
       f.input :description
       f.input :slug
@@ -30,8 +18,22 @@ ActiveAdmin.register Indicator do
       f.input :legend_states
       f.input :legend_countries
       f.input :legend_title
-
     end
+    f.actions
+  end
+
+  index do
+    column :id
+    column :category
+    column :parent_id
+    column :slug
+    column :name
+    column :description
+    column :labels
+    column :legend_states
+    column :legend_countries
+    column :legend_title
+
     actions
   end
 end
