@@ -16,7 +16,7 @@ module Api
       immutable
 
       attributes :name, :description, :slug, :relevant, :labels,
-                 :legend_states, :legend_countries, :legend_title
+                 :legend_states, :legend_countries, :legend_title, :parent_id
 
       has_one :category
       has_many :indicator_datum
