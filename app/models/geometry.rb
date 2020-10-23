@@ -27,12 +27,25 @@ class Geometry < ApplicationRecord
 
   scope :by_name, ->(string) { where('name ILIKE ?', "%#{string}%")}
 
-  def self.vector_tiles(param_z, param_x, param_y)
+  def self.vector_tiles(param_z, param_x, param_y, level, parent_id)
+    level ||= '1'
     begin
       x, y, z = Integer(param_x), Integer(param_y), Integer(param_z)
+      throw ArgumentError unless %w[1 2 3].include? level
+      Geometry.find(parent_id).location_type == :county if level == '3'
     rescue ArgumentError, TypeError
       return nil
     end
+
+    filter =
+      case level
+      when '1'
+        ' location_type = 2 '
+      when '2'
+        ' location_type IN (1,2) '
+      when '3'
+        " parent_id = #{parent_id} "
+      end
 
     query =
       <<~SQL
@@ -46,7 +59,7 @@ class Geometry < ApplicationRecord
     indicator_data_pivot
   inner join geometries g2 on
     g2.id = geometry_id
- WHERE ST_AsMVTGeom(st_transform(geom, 3857), ST_TileEnvelope(#{z},#{x},#{y}),4096,0,true) IS NOT NULL
+ WHERE #{filter} AND ST_AsMVTGeom(st_transform(geom, 3857), ST_TileEnvelope(#{z},#{x},#{y}),4096,0,true) IS NOT NULL
 )
 SELECT ST_ASMVT(tile.*, 'layer0', 4096, 'mvtgeometry', 'id') as tile
 FROM (SELECT id, properties, ST_AsMVTGeom(the_geom_webmercator, ST_TileEnvelope(#{z},#{x},#{y}), 4096, 256, true) AS mvtgeometry
