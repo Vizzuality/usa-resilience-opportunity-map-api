@@ -12,6 +12,7 @@ class ImportIndicatorData
       indicators = Indicator.all
       time = Time.now
 
+      # TODO move this to the service
       CSV.foreach(filename, col_sep: ',', row_sep: :auto, headers: true, encoding: 'UTF-8').with_index do |row, i|
         data_row = row.to_h
         geometry = Geometry.find_by gid: data_row['geoid']

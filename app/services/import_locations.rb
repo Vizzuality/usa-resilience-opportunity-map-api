@@ -59,20 +59,24 @@ class ImportLocations
 
   def import_censuses
     puts '>>> IMPORTING CENSUSES <<<'
+    bulk_insert = BulkInsertService.new(Geometry, 500)
 
     data('censuses')['features'].each do |feature|
       properties = feature['properties']
-      geometry = Geometry.find_or_create_by gid: properties['geoid']
-      geometry.parent_id = Geometry.county.find_by(county_fp: properties['countyfp'])&.id
-      geometry.name = properties['name']
-      geometry.location_type = Geometry.location_types['census']
-      geometry.state_fp = properties['statefp']
-      geometry.county_fp = properties['countyfp']
-      geometry.tract_ce = properties['tractce']
-      geometry.bbox = properties['bbox']
-      geometry.geojson = feature
-      geometry.properties = properties
-      geometry.save
+
+      geometry = {
+        gid: properties['geoid'],
+        parent_id: Geometry.county.find_by(county_fp: properties['countyfp'], state_fp: properties['statefp'])&.id,
+        name: properties['name'],
+        location_type: Geometry.location_types['census'],
+        state_fp: properties['statefp'],
+        county_fp: properties['countyfp'],
+        tract_ce: properties['tractce'],
+        bbox: properties['bbox'],
+        geojson: feature,
+        properties: properties
+      }
+      bulk_insert.call(geometry)
     end
 
     puts '>>> FINISHED IMPORTING COUNTIES <<<'
