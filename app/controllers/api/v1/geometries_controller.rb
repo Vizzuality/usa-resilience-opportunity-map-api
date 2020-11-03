@@ -9,7 +9,7 @@ module Api
 
       private
 
-      def set_cache_control_headers(max_age = 1.month.to_s)
+      def set_cache_control_headers(max_age = 1.month.to_i)
         response.headers['Cache-Control'] = 'public, no-cache'
         response.headers['Surrogate-Control'] = "max-age=#{max_age}"
       end

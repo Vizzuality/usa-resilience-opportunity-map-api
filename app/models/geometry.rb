@@ -32,8 +32,11 @@ class Geometry < ApplicationRecord
     begin
       x, y, z = Integer(param_x), Integer(param_y), Integer(param_z)
       throw ArgumentError unless %w[1 2 3].include? level
-      Geometry.find(parent_id).location_type == :county if level == '3'
-    rescue ArgumentError, TypeError
+      if level == '3'
+        throw ArgumentError.new('Invalid parent id') unless Geometry.find(parent_id).location_type == 'county'
+      end
+    rescue ArgumentError, TypeError => e
+      Rails.logger.warn "Vector Tiles wrong params: #{e.message}"
       return nil
     end
 
