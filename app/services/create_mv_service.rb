@@ -12,6 +12,7 @@ class CreateMvService
   def indicator_data_pivot
     query =
       <<~SQL
+DROP MATERIALIZED VIEW IF EXISTS indicator_data_pivot;
 CREATE MATERIALIZED VIEW indicator_data_pivot
 AS
  with indicator_join as (
