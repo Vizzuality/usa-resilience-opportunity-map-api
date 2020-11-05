@@ -4,6 +4,7 @@ class ImportLocations
 
   def initialize(types = DEFAULT_TYPES)
     @types = types & DEFAULT_TYPES
+    @bulk_insert = BulkInsertService.new(Geometry, 1000)
   end
 
   def call
@@ -24,16 +25,19 @@ class ImportLocations
 
     data('states')['features'].each do |feature|
       properties = feature['properties']
-      geometry = Geometry.find_or_create_by gid: properties['geoid']
-      geometry.name = properties['name']
-      geometry.location_type = Geometry.location_types['state']
-      geometry.state_fp = properties['statefp']
-      geometry.bbox = properties['bbox']
-      geometry.geojson = feature
-      geometry.properties = properties
-      geometry.save
-    end
 
+      geometry = {
+        gid: properties['geoid'],
+        name: properties['name'],
+        location_type: Geometry.location_types['state'],
+        state_fp: properties['statefp'],
+        bbox: properties['bbox'],
+        geojson: feature,
+        properties: properties,
+      }
+      @bulk_insert.call geometry
+    end
+    @bulk_insert.terminate
     puts '>>> FINISHED IMPORTING STATES <<<'
   end
 
@@ -42,24 +46,28 @@ class ImportLocations
 
     data('counties')['features'].each do |feature|
       properties = feature['properties']
-      geometry = Geometry.find_or_create_by gid: properties['geoid']
-      geometry.parent_id = Geometry.state.find_by(state_fp: properties['statefp'])&.id
-      geometry.name = properties['name']
-      geometry.location_type = Geometry.location_types['county']
-      geometry.state_fp = properties['statefp']
-      geometry.county_fp = properties['countyfp']
-      geometry.bbox = properties['bbox']
-      geometry.geojson = feature
-      geometry.properties = properties
-      geometry.save
+
+      geometry = {
+          gid: properties['geoid'],
+          parent_id: Geometry.state.find_by(state_fp: properties['statefp'])&.id,
+          name: properties['name'],
+          location_type: Geometry.location_types['county'],
+          state_fp: properties['statefp'],
+          county_fp: properties['countyfp'],
+          bbox: properties['bbox'],
+          geojson: feature,
+          properties: properties
+      }
+      @bulk_insert.call geometry
     end
 
+    @bulk_insert.terminate
     puts '>>> FINISHED IMPORTING COUNTIES <<<'
   end
 
   def import_censuses
     puts '>>> IMPORTING CENSUSES <<<'
-    bulk_insert = BulkInsertService.new(Geometry, 500)
+
 
     data('censuses')['features'].each do |feature|
       properties = feature['properties']
@@ -76,8 +84,10 @@ class ImportLocations
         geojson: feature,
         properties: properties
       }
-      bulk_insert.call(geometry)
+      @bulk_insert.call(geometry)
     end
+
+    @bulk_insert.terminate
 
     puts '>>> FINISHED IMPORTING COUNTIES <<<'
   end
