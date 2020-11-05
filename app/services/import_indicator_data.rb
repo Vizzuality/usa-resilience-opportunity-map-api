@@ -18,15 +18,21 @@ class ImportIndicatorData
         geometry = Geometry.find_by gid: data_row['geoid']
 
         data_row.to_a[4..-1].each_slice(4) do |data|
-          indicator = indicators.find_by slug: data.first.first.split('_').first
-          indicator_datum = { geometry_id: geometry.id, indicator_id: indicator.id }
-          indicator_datum[:absolute_value] = data.first.last
-          indicator_datum[:normalized_value] = data.second.last
-          indicator_datum[:hazard_value] = data.third.last
-          indicator_datum[:range] = data.fourth.last
-          indicator_datum[:created_at] = time
-          indicator_datum[:updated_at] = time
-          @indicator_data << indicator_datum
+          begin
+            indicator = indicators.find_by slug: data.first.first.split('_').first
+            indicator_datum = { geometry_id: geometry.id, indicator_id: indicator.id }
+            indicator_datum[:absolute_value] = data.first.last
+            indicator_datum[:normalized_value] = data.second.last
+            indicator_datum[:hazard_value] = data.third.last
+            indicator_datum[:range] = data.fourth.last
+            indicator_datum[:created_at] = time
+            indicator_datum[:updated_at] = time
+            @indicator_data << indicator_datum
+          rescue
+            puts ">>>>>>>>>>>> Error importing data:"
+            puts data
+            puts "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+          end
         end
 
         if i % 1000000
