@@ -15,5 +15,7 @@ ActiveAdmin.register IndicatorDatum do
   #   permitted
   # end
 
+  filter :indicator
+
   permit_params :category_id, :hazard_value, :geometry_id, :indicator_id, :absolute_value, :normalized_value, :range
 end
