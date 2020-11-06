@@ -16,6 +16,7 @@
 #  legend_title     :string
 #  external_id      :integer
 #  parent_id        :bigint
+#  legend_tracts    :string           default([]), is an Array
 #
 class Indicator < ApplicationRecord
   belongs_to :category
@@ -37,6 +38,12 @@ class Indicator < ApplicationRecord
   end
 
   def legend_countries=(values)
+    return super values.split(', ') if values.is_a? String
+
+    super values
+  end
+
+  def legend_tracts=(values)
     return super values.split(', ') if values.is_a? String
 
     super values

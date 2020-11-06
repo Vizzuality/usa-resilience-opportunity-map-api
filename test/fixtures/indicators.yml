@@ -16,6 +16,7 @@
 #  legend_title     :string
 #  external_id      :integer
 #  parent_id        :bigint
+#  legend_tracts    :string           default([]), is an Array
 #
 
 one:
