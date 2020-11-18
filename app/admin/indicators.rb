@@ -1,6 +1,6 @@
 ActiveAdmin.register Indicator do
   permit_params :category_id, :parent_id, :name, :description, :slug, :relevant,
-                :labels, :legend_states, :legend_countries, :legend_tracts, :legend_title
+                :labels_raw, :legend_states_raw, :legend_countries_raw, :legend_tracts_raw, :legend_title
 
   filter :name
   filter :parent_id, as: :select
@@ -14,10 +14,10 @@ ActiveAdmin.register Indicator do
       f.input :name
       f.input :description
       f.input :slug
-      f.input :labels
-      f.input :legend_states
-      f.input :legend_countries
-      f.input :legend_tracts
+      f.input :labels_raw
+      f.input :legend_states_raw
+      f.input :legend_countries_raw
+      f.input :legend_tracts_raw
       f.input :legend_title
     end
     f.actions

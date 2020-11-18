@@ -25,27 +25,35 @@ class Indicator < ApplicationRecord
 
   validates_inclusion_of :relevant, in: [true, false]
 
-  def labels=(values)
-    return super values.split(', ') if values.is_a? String
-
-    super values
+  def labels_raw=(values)
+    self.labels = values.split(', ')
   end
 
-  def legend_states=(values)
-    return super values.split(', ') if values.is_a? String
-
-    super values
+  def labels_raw
+    self.labels.join(', ')
   end
 
-  def legend_countries=(values)
-    return super values.split(', ') if values.is_a? String
-
-    super values
+  def legend_states_raw=(values)
+    self.legend_states =  values.split(', ')
   end
 
-  def legend_tracts=(values)
-    return super values.split(', ') if values.is_a? String
+  def legend_states_raw
+    self.legend_states.join(', ')
+  end
 
-    super values
+  def legend_countries_raw=(values)
+    self.legend_countries = values.split(', ')
+  end
+
+  def legend_countries_raw
+    self.legend_countries.join(', ')
+  end
+
+  def legend_tracts_raw=(values)
+    self.legend_tracts = values.split(', ')
+  end
+
+  def legend_tracts_raw
+    legend_tracts.join(', ')
   end
 end
