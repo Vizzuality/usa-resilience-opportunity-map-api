@@ -1,20 +1,46 @@
 ActiveAdmin.register Geometry do
 
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  # permit_params :geom, :name, :description, :gid, :location_type, :parent_id, :state_fp, :county_fp, :geojson, :properties, :bbox
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:geom, :name, :description, :gid, :location_type, :parent_id, :state_fp, :county_fp, :geojson, :properties, :bbox]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-
   permit_params :geom, :name, :description, :gid, :location_type, :parent_id,
                 :state_fp, :county_fp, :tract_ce, :geojson, :properties, :bbox
+
+  filter :id, as: :string, label: "ID"
+  filter :name, as: :string, label: "Name"
+  filter :gid, as: :string, label: "GID"
+  filter :location_type, as: :string
+
+  index do
+    selectable_column
+      column :id
+      column :name
+      column :description
+      column :gid
+      column :location_type
+      column :parent_id
+      column :state_fp
+      column :county_fp
+      column :bbox
+      column :tract_ce
+    actions
+  end
+  form do |f|
+    f.semantic_errors
+    div do
+      f.inputs "Options" do
+        f.input :name
+        f.input :description
+        f.input :gid
+        f.input :location_type
+        f.input :parent_id
+        f.input :state_fp
+        f.input :county_fp
+        f.input :properties, as: :text
+        f.input :bbox, as: :text
+        f.input :tract_ce
+      end
+    end
+    div do
+      f.actions
+    end
+  end
+
 end
