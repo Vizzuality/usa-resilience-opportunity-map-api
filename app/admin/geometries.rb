@@ -1,7 +1,18 @@
 ActiveAdmin.register Geometry do
 
-  permit_params :geom, :name, :description, :gid, :location_type, :parent_id,
-                :state_fp, :county_fp, :tract_ce, :geojson, :properties, :bbox
+  before_action :jsonfy, only: [:update]
+
+  #permit_params :geom, :name, :description, :gid, :location_type, :parent_id,
+                #:state_fp, :county_fp, :tract_ce, :geojson, :properties, :bbox
+
+  controller do
+    def permitted_params
+      params.permit!
+    end
+    def jsonfy
+      params[:geometry][:bbox] = JSON.parse params[:geometry][:bbox]
+    end
+  end
 
   filter :id, as: :string, label: "ID"
   filter :name, as: :string, label: "Name"
