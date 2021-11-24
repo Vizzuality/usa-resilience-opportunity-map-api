@@ -86,6 +86,9 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
+  # Digital Ocean config
+  config.hosts << "us-resilience-api-z88pi.ondigitalocean.app"
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
