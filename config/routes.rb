@@ -14,7 +14,6 @@ Rails.application.routes.draw do
       resources :geometries, only: [:index] do
         get 'tiles/:z/:x/:y', to: 'geometries#tiles', on: :collection
       end
-      resources :downloads, only: [:show]
     end
   end
 end
